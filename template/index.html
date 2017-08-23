@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Base de Données</title>
+</head>
+
+<body>
+    <h1>Base de données Evènements</h1>
+
+    <table>
+        {{#db}}
+        <tr>{{name}}
+            <td>{{place}}</td>
+        </tr>
+        {{/db}}
+    </table>
+
+    <form method="POST" action="/event/add">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text">
+        <label for="place">Place</label>
+        <input id="place" name="place" type="text">
+        <input type="submit" id="submit" value="Submit">
+    </form>
+</body>
+<script>
+    let submit = (document.querySelector("#submit")).addEventListener("click", function(e) {
+        e.preventDefault();
+        console.log('TEst');
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/event/add', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    console.log("TEst");
+                    console.log(xhr.response);
+                } else {
+                    console.error('unexpected status code:', this.status);
+                }
+            }
+        };
+        xhr.send(null);
+    });
+
+    /*  let xhr = new XMLHttpRequest();
+      xhr.open('GET', '/', true);
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                  xhr.response;
+                  console.log(xhr.response);
+              } else {
+                  console.error('unexpected status code:', this.status);
+              }
+          }
+      };
+      xhr.send(null);*/
+</script>
+
+</html>
