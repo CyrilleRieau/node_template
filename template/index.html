@@ -49,19 +49,21 @@
         xhr.send(parma);
     });
 
-    /*  let xhr = new XMLHttpRequest();
-      xhr.open('GET', '/', true);
-      xhr.onreadystatechange = function() {
-          if (xhr.readyState === XMLHttpRequest.DONE) {
-              if (xhr.status === 200) {
-                  xhr.response;
-                  console.log(xhr.response);
-              } else {
-                  console.error('unexpected status code:', this.status);
-              }
-          }
-      };
-      xhr.send(null);*/
+    setInterval(function() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    xhr.response;
+                    console.log(xhr.response);
+                } else {
+                    console.error('unexpected status code:', this.status);
+                }
+            }
+        };
+        xhr.send(null);
+    }, 500)
 </script>
 
 </html>
