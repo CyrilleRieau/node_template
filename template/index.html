@@ -16,7 +16,7 @@
     {{#db}}
     <h2>{{name}}</h2>
     <p>{{place}}</p>
-    <input type="submit" id="delete" value="Delete" /> {{/db}}
+    <input type="submit" class="delete" value="Delete" data-id="{{name}}" /> {{/db}}
 
 
     <form method="POST" action="/event/add">
@@ -68,22 +68,26 @@
             xhr.send(null);
         }, 500);
 
-        document.querySelector("#delete").addEventListener("click", function(e) {
-            e.preventDefault();
-            let xhr = new XMLHttpRequest();
-            xhr.open('DELETE', '/event/del', true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        console.log(xhr.response);
-                    } else {
-                        console.error('unexpected status code:', this.status);
+        let buttons = document.querySelectorAll(".delete");
+        for (let but of buttons) {
+            but.addEventListener("click", function(e) {
+                e.preventDefault();
+                let input = e.target;
+                let xhr = new XMLHttpRequest();
+                xhr.open('DELETE', '/event/del', true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            console.log(xhr.response);
+                        } else {
+                            console.error('unexpected status code:', this.status);
+                        }
                     }
-                }
-            };
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.send(null);
-        });
+                };
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.send("id=" + input.dataset.id);
+            });
+        }
     </script>
 </body>
 

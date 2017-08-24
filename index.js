@@ -13,19 +13,25 @@ let events = [];
 app.post("/event/add", function(req, res) {
     let name = req.body.name;
     let place = req.body.place;
-    console.log(name);
+    //console.log(name);
     let event = {
         "name": name,
         "place": place
     };
     events.push(event);
-    console.log(events);
+    //console.log(events);
     res.send('<a href="/">Event added</a>');
 });
 
 app.delete("/event/del", function(req, res, next) {
-    events.splice(req);
     console.log(events);
+    console.log(req.body);
+    //N fonctionn pas
+    for (let i = 0; i < events.length; i++) {
+        events.splice(req.body.id[i], 1);
+    } //modifier pour que supprime le bon
+    console.log(events);
+    //events.splice(req.body);
 });
 
 app.get("/", function(req, res) {
