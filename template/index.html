@@ -30,6 +30,9 @@
 <script>
     let submit = (document.querySelector("#submit")).addEventListener("click", function(e) {
         e.preventDefault();
+        let name = document.querySelector('#name').value;
+        let place = document.querySelector('#place').value;
+        let parma = "name=" + name + "&place=" + place;
         console.log('TEst');
         let xhr = new XMLHttpRequest();
         xhr.open('POST', '/event/add', true);
@@ -43,7 +46,7 @@
                 }
             }
         };
-        xhr.send(null);
+        xhr.send(parma);
     });
 
     /*  let xhr = new XMLHttpRequest();
