@@ -21,8 +21,11 @@ app.post("/event/add", function(req, res) {
     events.push(event);
     console.log(events);
     res.send('<a href="/">Event added</a>');
+});
 
-
+app.delete("/event/del", function(req, res, next) {
+    events.splice(req);
+    console.log(events);
 });
 
 app.get("/", function(req, res) {
