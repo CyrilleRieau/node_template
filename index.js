@@ -1,9 +1,9 @@
 const express = require('express');
-
 const fs = require('fs');
-
+const xmlhttp = require('xmlhttprequest');
 const mustache = require('mustache');
 let app = express();
+let http = require('http');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,20 +13,23 @@ let events = [];
 app.post("/event/add", function(req, res) {
     let name = req.body.name;
     let place = req.body.place;
-    console.log(req.body.name);
+    console.log(name);
     let event = {
-        name: name,
-        place: place
+        "name": name,
+        "place": place
     };
     events.push(event);
     console.log(events);
-    res.send("event added");
+    res.send('<a href="/">Event added</a>');
+
+
 });
 
 app.get("/", function(req, res) {
-        res.render('index', {
+        res.render('index.html', {
             db: events
         });
+
     })
     /*
         app.get("/", function(req, res) {
@@ -48,7 +51,7 @@ app.engine("html", function(path, options, callback) {
 });
 app.set('views', './template');
 app.set('view engine', 'html');
-app.use("/", express.static("public"));
+app.use("/", express.static("static"));
 
 app.listen(80, "localhost", function() {
     console.log('Listening port 80 !');
