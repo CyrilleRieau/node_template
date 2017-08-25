@@ -6,29 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Base de Données</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+        crossorigin="anonymous">
 </head>
 
 <body>
     <META HTTP-EQUIV="refresh" CONTENT="30">
-    <h1>Base de données Evènements</h1>
+    <div class="jumbotron text-center">
+        <h1>Meetup Dordogne</h1>
+        <strong> LE site qui répertorie les meilleurs event des afficionados de la dordogne </strong>
+    </div>
+    <div class="center">
+        <h2>Créer un event</h2>
+        <form class="form-horizontal" method="POST" action="/event/add">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="name">Name</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="name" name="name" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="place">Place</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="place" name="place" type="text">
+                </div>
+            </div>
 
+            <input type="submit" id="submit" value="Submit" class="btn btn-default offset-md-4 col-sm-2">
+        </form>
+    </div>
+    <div class="jumbotron text-center">
+        {{#db}}
+        <h2>{{name}}</h2>
+        <p>{{place}}</p>
+        <input type="submit" class="delete btn btn-primary btn-sm " value="Delete" data-id="{{name}}" /> {{/db}}
+        <span>
+</div>
 
-    {{#db}}
-    <h2>{{name}}</h2>
-    <p>{{place}}</p>
-    <input type="submit" class="delete" value="Delete" data-id="{{name}}" /> {{/db}}
+<p> Ce site est mis à votre disposition par deux amoureux de la Dordogne Cyrille Rieau (backend) et Emmanuel Le Chibré (frontend) </p>
+</body>
 
-
-    <form method="POST" action="/event/add">
-        <label for="name">Name</label>
-        <input id="name" name="name" type="text" />
-        <label for="place">Place</label>
-        <input id="place" name="place" type="text" />
-        <input type="submit" id="submit" value="Submit" />
-    </form>
 
     <script>
-        document.querySelector("#submit").addEventListener("click", function(e) {
+        document.querySelector("#submit").addEventListener("click", function (e) {
             e.preventDefault();
             let name = document.querySelector('#name').value;
             let place = document.querySelector('#place').value;
@@ -37,7 +57,7 @@
             console.log('Test');
             let xhr = new XMLHttpRequest();
             xhr.open('POST', '/event/add', true);
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
                         console.log("Tdest");
@@ -51,10 +71,10 @@
             xhr.send(params);
         });
 
-        setInterval(function() {
+        setInterval(function () {
             let xhr = new XMLHttpRequest();
             xhr.open('GET', '/', true);
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
                         //xhr.response;
@@ -70,12 +90,12 @@
 
         let buttons = document.querySelectorAll(".delete");
         for (let but of buttons) {
-            but.addEventListener("click", function(e) {
+            but.addEventListener("click", function (e) {
                 e.preventDefault();
                 let input = e.target;
                 let xhr = new XMLHttpRequest();
                 xhr.open('DELETE', '/event/del', true);
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
                             console.log(xhr.response);
