@@ -2,17 +2,18 @@ const express = require('express');
 const fs = require('fs');
 const xmlhttp = require('xmlhttprequest');
 const mustache = require('mustache');
+const bodyParser = require('body-parser');
 let app = express();
 let http = require('http');
-const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let events = [];
+let events = [{ name: "toto", place: "tata" }, { name: "titi", place: "tutu" }];
 
 app.post("/event/add", function(req, res) {
     let name = req.body.name;
     let place = req.body.place;
+
     //console.log(name);
     let event = {
         "name": name,
@@ -20,25 +21,28 @@ app.post("/event/add", function(req, res) {
     };
     events.push(event);
     //console.log(events);
-    res.send('<a href="/">Event added</a>');
+    res.send(event);
 });
 
 app.delete("/event/del", function(req, res, next) {
-    console.log(events);
-    console.log(req.body);
-    //N fonctionn pas
+    //console.log(events);
+    //console.log(req.body);
+    console.log(req.body.id);
     for (let i = 0; i < events.length; i++) {
-        events.splice(req.body.id[i], 1);
-    } //modifier pour que supprime le bon
-    console.log(events);
-    //events.splice(req.body);
+        if (req.body.id == events[i].name) {
+            console.log(events[i]);
+            res.send(events[i]);
+            events.splice(i, 1);
+            return;
+        }
+    }
+
 });
 
 app.get("/", function(req, res) {
         res.render('index.html', {
             db: events
         });
-
     })
     /*
         app.get("/", function(req, res) {
@@ -65,3 +69,5 @@ app.use("/", express.static("static"));
 app.listen(80, "localhost", function() {
     console.log('Listening port 80 !');
 })
+
+//rajouter codes d'erreur
